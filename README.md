@@ -8,20 +8,6 @@ A comprehensive Minecraft server management Skript that recreates the functional
 
 ---
 
-## 📋 Table of Contents
-
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Commands](#commands)
-- [Permissions](#permissions)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
 ## ✨ Features
 
 ### 🏠 **Teleportation System**
