@@ -404,8 +404,7 @@ Contributions are welcome! Here's how you can help:
 ### **Special Thanks**
 - EssentialsX team for the original plugin
 - Skript community for documentation and support
-- All contributors and testers
-
+- copilot for the super good readme.md file :)
 ---
 
 ## 🌟 Show Your Support
