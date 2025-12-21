@@ -1,0 +1,1148 @@
+options:
+    prefix: &6[&bEssentials&6]&r
+    
+on load:
+    set {essentials. version} to "1.0.0"
+    set {essentials.loaded} to true
+
+# ================================
+# HELP COMMAND
+# ================================
+
+command /help [<text>] [<number>]:
+    aliases: /ehelp
+    description: Views a list of available commands
+    trigger:
+        if arg-1 is not set: 
+            send "&6=== &bEssentialsX Commands &6=== &7(Page 1)" to player
+            send "&e/help [search] [page] &7- View commands" to player
+            send "&e/spawn &7- Teleport to spawn" to player
+            send "&e/home [name] &7- Teleport to home" to player
+            send "&e/sethome [name] &7- Set a home location" to player
+            send "&e/warp [name] &7- Teleport to warp" to player
+            send "&e/tpa <player> &7- Request teleport" to player
+            send "&e/msg <player> <message> &7- Private message" to player
+        else: 
+            # Search functionality
+            send "{@prefix} &7Searching for:  &e%arg-1%" to player
+
+# ================================
+# SUICIDE COMMAND
+# ================================
+
+command /suicide:
+    aliases: /esuicide, /killme
+    description: Causes you to perish
+    trigger:
+        kill player
+        send "{@prefix} &7Goodbye cruel world..." to player
+
+# ================================
+# HEAL COMMAND
+# ================================
+
+command /heal [<offline player>]:
+    aliases: /eheal
+    description: Heals you or another player
+    permission: essentials.heal
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set: 
+            heal player
+            set player's food level to 20
+            clear player's potion effects
+            send "{@prefix} &aYou have been healed!" to player
+        else:
+            if player has permission "essentials.heal. others":
+                if arg-1 is online:
+                    heal arg-1
+                    set arg-1's food level to 20
+                    clear arg-1's potion effects
+                    send "{@prefix} &aYou healed &e%arg-1%&a!" to player
+                    send "{@prefix} &aYou have been healed by &e%player%&a!" to arg-1
+                else:
+                    send "{@prefix} &cPlayer is not online!" to player
+            else:
+                send "&cYou don't have permission!" to player
+
+# ================================
+# FLY COMMAND
+# ================================
+
+command /fly [<offline player>] [<text>]:
+    aliases: /efly
+    description: Toggle flight mode
+    permission: essentials.fly
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set: 
+            if player's flight mode is true:
+                set player's flight mode to false
+                send "{@prefix} &cFlight disabled." to player
+            else:
+                set player's flight mode to true
+                send "{@prefix} &aFlight enabled." to player
+        else:
+            if player has permission "essentials.fly.others":
+                if arg-1 is online:
+                    if arg-2 is "on":
+                        set arg-1's flight mode to true
+                        send "{@prefix} &aEnabled flight for &e%arg-1%&a!" to player
+                        send "{@prefix} &aFlight enabled by &e%player%&a!" to arg-1
+                    else if arg-2 is "off": 
+                        set arg-1's flight mode to false
+                        send "{@prefix} &cDisabled flight for &e%arg-1%&c!" to player
+                        send "{@prefix} &cFlight disabled by &e%player%&c!" to arg-1
+                    else:
+                        # Toggle
+                        if arg-1's flight mode is true:
+                            set arg-1's flight mode to false
+                            send "{@prefix} &cDisabled flight for &e%arg-1%&c!" to player
+                        else:
+                            set arg-1's flight mode to true
+                            send "{@prefix} &aEnabled flight for &e%arg-1%&a!" to player
+                else:
+                    send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# GAMEMODE COMMANDS
+# ================================
+
+command /gmc [<offline player>]:
+    aliases: /egmc, /creative, /ecreative
+    description: Change to creative mode
+    permission: essentials.gamemode.creative
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set: 
+            set player's gamemode to creative
+            send "{@prefix} &aGamemode set to &eCreative&a." to player
+        else:
+            if player has permission "essentials.gamemode.others":
+                if arg-1 is online:
+                    set arg-1's gamemode to creative
+                    send "{@prefix} &aSet &e%arg-1%'s&a gamemode to &eCreative&a!" to player
+                    send "{@prefix} &aYour gamemode was set to &eCreative&a!" to arg-1
+                else:
+                    send "{@prefix} &cPlayer is not online!" to player
+
+command /gms [<offline player>]:
+    aliases: /egms, /survival, /esurvival
+    description: Change to survival mode
+    permission: essentials.gamemode.survival
+    permission message: &cYou don't have permission!
+    trigger: 
+        if arg-1 is not set:
+            set player's gamemode to survival
+            send "{@prefix} &aGamemode set to &eSurvival&a." to player
+        else:
+            if player has permission "essentials.gamemode.others": 
+                if arg-1 is online:
+                    set arg-1's gamemode to survival
+                    send "{@prefix} &aSet &e%arg-1%'s&a gamemode to &eSurvival&a!" to player
+                    send "{@prefix} &aYour gamemode was set to &eSurvival&a!" to arg-1
+
+command /gma [<offline player>]:
+    aliases: /egma, /adventure, /eadventure
+    description: Change to adventure mode
+    permission: essentials.gamemode. adventure
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set:
+            set player's gamemode to adventure
+            send "{@prefix} &aGamemode set to &eAdventure&a." to player
+        else:
+            if player has permission "essentials.gamemode.others":
+                if arg-1 is online:
+                    set arg-1's gamemode to adventure
+                    send "{@prefix} &aSet &e%arg-1%'s&a gamemode to &eAdventure&a!" to player
+
+command /gmsp [<offline player>]:
+    aliases: /egmsp, /spectator, /espectator
+    description: Change to spectator mode
+    permission: essentials.gamemode.spectator
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            set player's gamemode to spectator
+            send "{@prefix} &aGamemode set to &eSpectator&a." to player
+        else:
+            if player has permission "essentials.gamemode.others": 
+                if arg-1 is online:
+                    set arg-1's gamemode to spectator
+                    send "{@prefix} &aSet &e%arg-1%'s&a gamemode to &eSpectator&a!" to player
+
+# ================================
+# SPEED COMMAND
+# ================================
+
+command /speed [<text>] [<number>] [<offline player>]:
+    aliases: /espeed, /flyspeed, /walkspeed
+    description: Change walk or fly speed
+    permission: essentials.speed
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            send "{@prefix} &cUsage: /speed [walk|fly] <speed> [player]" to player
+            send "{@prefix} &7Speed range: 0-10" to player
+        else if arg-2 is not set: 
+            # Only speed number provided
+            set {_speed} to arg-1 parsed as number
+            if {_speed} is set:
+                if {_speed} is between 0 and 10:
+                    if player is flying:
+                        set player's fly speed to {_speed} / 10
+                        send "{@prefix} &aFly speed set to &e%{_speed}%&a!" to player
+                    else:
+                        set player's walk speed to {_speed} / 10
+                        send "{@prefix} &aWalk speed set to &e%{_speed}%&a!" to player
+                else:
+                    send "{@prefix} &cSpeed must be between 0 and 10!" to player
+        else:
+            set {_type} to arg-1
+            set {_speed} to arg-2
+            if {_speed} is between 0 and 10:
+                if arg-3 is not set: 
+                    if {_type} is "fly":
+                        set player's fly speed to {_speed} / 10
+                        send "{@prefix} &aFly speed set to &e%{_speed}%&a!" to player
+                    else if {_type} is "walk": 
+                        set player's walk speed to {_speed} / 10
+                        send "{@prefix} &aWalk speed set to &e%{_speed}%&a!" to player
+                else:
+                    if player has permission "essentials.speed.others":
+                        if arg-3 is online:
+                            if {_type} is "fly": 
+                                set arg-3's fly speed to {_speed} / 10
+                                send "{@prefix} &aSet &e%arg-3%'s&a fly speed to &e%{_speed}%&a!" to player
+                            else if {_type} is "walk": 
+                                set arg-3's walk speed to {_speed} / 10
+                                send "{@prefix} &aSet &e%arg-3%'s&a walk speed to &e%{_speed}%&a!" to player
+
+# ================================
+# GOD MODE COMMAND
+# ================================
+
+command /god [<offline player>]:
+    aliases: /egod, /godmode
+    description: Toggle invincibility
+    permission: essentials.god
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set: 
+            if {godmode. %player%} is true:
+                set {godmode. %player%} to false
+                send "{@prefix} &cGod mode disabled." to player
+            else:
+                set {godmode.%player%} to true
+                send "{@prefix} &aGod mode enabled." to player
+        else:
+            if player has permission "essentials.god.others":
+                if arg-1 is online:
+                    if {godmode.%arg-1%} is true:
+                        set {godmode.%arg-1%} to false
+                        send "{@prefix} &cDisabled god mode for &e%arg-1%&c!" to player
+                        send "{@prefix} &cGod mode disabled." to arg-1
+                    else:
+                        set {godmode.%arg-1%} to true
+                        send "{@prefix} &aEnabled god mode for &e%arg-1%&a!" to player
+                        send "{@prefix} &aGod mode enabled." to arg-1
+
+on damage:
+    if {godmode.%victim%} is true:
+        cancel event
+
+# ================================
+# FEED COMMAND
+# ================================
+
+command /feed [<offline player>]: 
+    aliases: /efeed, /eat
+    description:  Satisfy your hunger
+    permission: essentials.feed
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set: 
+            set player's food level to 20
+            set player's saturation to 20
+            send "{@prefix} &aYour appetite was sated!" to player
+        else: 
+            if player has permission "essentials.feed.others":
+                if arg-1 is online: 
+                    set arg-1's food level to 20
+                    set arg-1's saturation to 20
+                    send "{@prefix} &aYou fed &e%arg-1%&a!" to player
+                    send "{@prefix} &aYou have been fed!" to arg-1
+
+# ================================
+# REPAIR COMMAND
+# ================================
+
+command /repair [<text>]:
+    aliases: /fix, /erepair, /efix
+    description: Repairs durability of items
+    permission: essentials.repair
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 isn't set:
+            if player's tool is not air:
+                set durability of player's tool to 0
+                send "{@prefix} &aItem repaired!" to player
+            else:
+                send "{@prefix} &cYou must be holding an item!" to player
+        if arg-1 is "hand":
+            if player's tool is not air:
+                set durability of player's tool to 0
+                send "{@prefix} &aItem repaired!" to player
+            else:
+                send "{@prefix} &cYou must be holding an item!" to player
+
+        if arg-1 is "all":
+            if player has permission "essentials.repair.all":
+                loop all items in player's inventory: 
+                    set durability of loop-item to 0
+                send "{@prefix} &aAll items repaired!" to player
+            else:
+                send "&cYou don't have permission!" to player
+
+# ================================
+# HOME COMMANDS
+# ================================
+
+command /sethome [<text>]: 
+    aliases: /esethome, /createhome
+    description: Set a home location
+    permission: essentials.sethome
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set:
+            set {home.%player%. home} to location of player
+            send "{@prefix} &aHome set!" to player
+        else:
+            set {home.%player%.%arg-1%} to location of player
+            send "{@prefix} &aHome &e%arg-1%&a set!" to player
+
+command /home [<text>]:
+    aliases:  /ehome
+    description: Teleport to your home
+    permission: essentials. home
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set:
+            if {home.%player%.home} is set:
+                teleport player to {home.%player%.home}
+                send "{@prefix} &aTeleporting home..." to player
+            else:
+                send "{@prefix} &cYou don't have a home set!  Use /sethome" to player
+        else:
+            if {home.%player%.%arg-1%} is set: 
+                teleport player to {home.%player%.%arg-1%}
+                send "{@prefix} &aTeleporting to &e%arg-1%&a..." to player
+            else:
+                send "{@prefix} &cHome &e%arg-1%&c doesn't exist!" to player
+
+command /delhome [<text>]:
+    aliases:  /edelhome, /remhome, /rmhome
+    description: Remove a home
+    permission: essentials. delhome
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set: 
+            delete {home.%player%.home}
+            send "{@prefix} &aHome deleted!" to player
+        else: 
+            delete {home.%player%.%arg-1%}
+            send "{@prefix} &aHome &e%arg-1%&a deleted!" to player
+
+command /homes: 
+    aliases: /ehomes
+    description: List all your homes
+    permission: essentials. homes
+    permission message: &cYou don't have permission! 
+    trigger:
+        send "{@prefix} &aYour homes:" to player
+        loop {home.%player%::*}:
+            send "&e- %loop-index%" to player
+
+# ================================
+# WARP COMMANDS
+# ================================
+
+command /setwarp <text>:
+    aliases: /esetwarp, /createwarp
+    description: Create a warp
+    permission: essentials.setwarp
+    permission message: &cYou don't have permission!
+    trigger: 
+        set {warp.%arg-1%} to location of player
+        send "{@prefix} &aWarp &e%arg-1%&a created!" to player
+
+command /warp [<text>]:
+    aliases:  /ewarp, /warps
+    description: Teleport to a warp or list warps
+    permission: essentials.warp
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            send "{@prefix} &aAvailable warps:" to player
+            loop {warp::*}:
+                send "&e- %loop-index%" to player
+        else:
+            if {warp.%arg-1%} is set:
+                teleport player to {warp.%arg-1%}
+                send "{@prefix} &aTeleporting to &e%arg-1%&a..." to player
+            else:
+                send "{@prefix} &cWarp &e%arg-1%&c doesn't exist!" to player
+
+command /delwarp <text>:
+    aliases: /edelwarp, /remwarp, /rmwarp
+    description: Delete a warp
+    permission: essentials.delwarp
+    permission message: &cYou don't have permission! 
+    trigger:
+        if {warp.%arg-1%} is set:
+            delete {warp.%arg-1%}
+            send "{@prefix} &aWarp &e%arg-1%&a deleted!" to player
+        else:
+            send "{@prefix} &cWarp &e%arg-1%&c doesn't exist!" to player
+
+# ================================
+# SPAWN COMMANDS
+# ================================
+
+command /setspawn: 
+    aliases: /esetspawn
+    description: Set the spawn point
+    permission: essentials.setspawn
+    permission message: &cYou don't have permission! 
+    trigger:
+        set {spawn} to location of player
+        send "{@prefix} &aSpawn set!" to player
+
+command /spawn: 
+    aliases: /espawn
+    description: Teleport to spawn
+    permission: essentials.spawn
+    permission message: &cYou don't have permission!
+    trigger:
+        if {spawn} is set:
+            teleport player to {spawn}
+            send "{@prefix} &aTeleporting to spawn..." to player
+        else:
+            send "{@prefix} &cSpawn is not set!" to player
+
+# ================================
+# TELEPORT REQUEST COMMANDS
+# ================================
+
+command /tpa <offline player>:
+    aliases: /etpa, /call, /tpask
+    description: Request to teleport to a player
+    permission: essentials. tpa
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is online:
+            if arg-1 is not player:
+                set {tpa.%arg-1%} to player
+                send "{@prefix} &aTeleport request sent to &e%arg-1%&a!" to player
+                send "{@prefix} &e%player%&a wants to teleport to you!" to arg-1
+                send "{@prefix} &aType &e/tpaccept&a to accept or &e/tpdeny&a to deny!" to arg-1
+            else:
+                send "{@prefix} &cYou cannot teleport to yourself!" to player
+        else: 
+            send "{@prefix} &cPlayer is not online!" to player
+
+command /tpahere <offline player>:
+    aliases: /etpahere, /tphere
+    description: Request a player to teleport to you
+    permission: essentials.tpahere
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is online:
+            if arg-1 is not player:
+                set {tpahere.%arg-1%} to player
+                send "{@prefix} &aTeleport request sent to &e%arg-1%&a!" to player
+                send "{@prefix} &e%player%&a wants you to teleport to them!" to arg-1
+                send "{@prefix} &aType &e/tpaccept&a to accept or &e/tpdeny&a to deny!" to arg-1
+            else:
+                send "{@prefix} &cYou cannot teleport yourself!" to player
+        else: 
+            send "{@prefix} &cPlayer is not online!" to player
+
+command /tpaccept: 
+    aliases: /etpaccept, /tpyes
+    description: Accept a teleport request
+    permission: essentials. tpaccept
+    permission message: &cYou don't have permission!
+    trigger:
+        if {tpa.%player%} is set:
+            set {_requester} to {tpa.%player%}
+            teleport {_requester} to player
+            send "{@prefix} &aTeleport request accepted!" to player
+            send "{@prefix} &aTeleporting..." to {_requester}
+            delete {tpa.%player%}
+        else if {tpahere.%player%} is set:
+            set {_requester} to {tpahere.%player%}
+            teleport player to {_requester}
+            send "{@prefix} &aTeleport request accepted!" to player
+            send "{@prefix} &e%player%&a is teleporting to you!" to {_requester}
+            delete {tpahere.%player%}
+        else:
+            send "{@prefix} &cYou don't have any pending teleport requests!" to player
+
+command /tpdeny:
+    aliases: /etpdeny, /tpno
+    description: Deny a teleport request
+    permission:  essentials.tpdeny
+    permission message: &cYou don't have permission!
+    trigger: 
+        if {tpa.%player%} is set:
+            set {_requester} to {tpa.%player%}
+            send "{@prefix} &cTeleport request denied!" to player
+            send "{@prefix} &e%player%&c denied your teleport request!" to {_requester}
+            delete {tpa.%player%}
+        else if {tpahere.%player%} is set:
+            set {_requester} to {tpahere.%player%}
+            send "{@prefix} &cTeleport request denied!" to player
+            send "{@prefix} &e%player%&c denied your teleport request!" to {_requester}
+            delete {tpahere.%player%}
+        else:
+            send "{@prefix} &cYou don't have any pending teleport requests!" to player
+
+# ================================
+# MESSAGING COMMANDS
+# ================================
+
+command /msg <offline player> <text>: 
+    aliases: /emsg, /tell, /etell, /m, /t, /whisper, /w
+    description: Send a private message
+    permission: essentials. msg
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is online:
+            if {msgtoggle.%arg-1%} is not true:
+                send "&7[&6You &7-> &6%arg-1%&7]&f %arg-2%" to player
+                send "&7[&6%player% &7-> &6You&7]&f %arg-2%" to arg-1
+                set {reply. %arg-1%} to player
+                set {reply.%player%} to arg-1
+            else:
+                send "{@prefix} &cThat player has private messages disabled!" to player
+        else: 
+            send "{@prefix} &cPlayer is not online!" to player
+
+command /reply <text>:
+    aliases: /ereply, /r
+    description: Reply to last private message
+    permission: essentials. msg
+    permission message: &cYou don't have permission!
+    trigger:
+        if {reply. %player%} is set: 
+            if {reply.%player%} is online:
+                if {msgtoggle.%{reply.%player%}%} is not true:
+                    send "&7[&6You &7-> &6%{reply.%player%}%&7]&f %arg-1%" to player
+                    send "&7[&6%player% &7-> &6You&7]&f %arg-1%" to {reply.%player%}
+                else:
+                    send "{@prefix} &cThat player has private messages disabled!" to player
+            else:
+                send "{@prefix} &cPlayer is not online!" to player
+        else:
+            send "{@prefix} &cYou have no one to reply to!" to player
+
+command /msgtoggle [<offline player>] [<text>]:
+    aliases: /emsgtoggle
+    description: Toggle private messages
+    permission: essentials.msgtoggle
+    permission message:  &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            if {msgtoggle.%player%} is true:
+                set {msgtoggle.%player%} to false
+                send "{@prefix} &aPrivate messages enabled!" to player
+            else: 
+                set {msgtoggle. %player%} to true
+                send "{@prefix} &cPrivate messages disabled!" to player
+
+# ================================
+# BACK COMMAND
+# ================================
+
+on death of player:
+    set {back.%victim%} to location of victim
+
+command /back:
+    aliases: /eback, /return
+    description: Teleport to your previous location
+    permission: essentials. back
+    permission message: &cYou don't have permission! 
+    trigger:
+        if {back.%player%} is set:
+            set {_temp} to location of player
+            teleport player to {back.%player%}
+            set {back.%player%} to {_temp}
+            send "{@prefix} &aTeleporting to previous location..." to player
+        else:
+            send "{@prefix} &cNo previous location found!" to player
+
+# ================================
+# KICK COMMAND
+# ================================
+
+command /kick <offline player> [<text>]:
+    aliases: /ekick
+    description: Kick a player
+    permission: essentials.kick
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is online:
+            if arg-2 is set:
+                kick arg-1 due to arg-2
+                send "{@prefix} &aKicked &e%arg-1%&a:  %arg-2%" to player
+            else:
+                kick arg-1 due to "Kicked by an operator"
+                send "{@prefix} &aKicked &e%arg-1%&a!" to player
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+command /kickall [<text>]:
+    aliases:  /ekickall
+    description:  Kick all players except issuer
+    permission: essentials. kickall
+    permission message: &cYou don't have permission! 
+    trigger:
+        loop all players:
+            if loop-player is not player:
+                if arg-1 is set:
+                    kick loop-player due to arg-1
+                else:
+                    kick loop-player due to "Server restart or maintenance"
+        send "{@prefix} &aKicked all players!" to player
+
+# ================================
+# BROADCAST COMMAND
+# ================================
+
+command /broadcast <text>:
+    aliases:  /ebroadcast, /bc, /ebc, /bcast, /ebcast
+    description: Broadcast a message
+    permission: essentials.broadcast
+    permission message: &cYou don't have permission!
+    trigger:
+        broadcast "&6[&bBroadcast&6]&r %arg-1%"
+
+# ================================
+# INVSEE COMMAND
+# ================================
+
+command /invsee <offline player>:
+    aliases: /einvsee
+    description: View another player's inventory
+    permission: essentials.invsee
+    permission message: &cYou don't have permission!
+    trigger: 
+        if arg-1 is online:
+            open inventory of arg-1 to player
+            send "{@prefix} &aOpening &e%arg-1%'s&a inventory..." to player
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# ENDERCHEST COMMAND
+# ================================
+
+command /enderchest [<offline player>]:
+    aliases: /echest, /eenderchest, /ec, /eec
+    description: View an enderchest
+    permission: essentials.enderchest
+    permission message: &cYou don't have permission!
+    trigger: 
+        if arg-1 is not set:
+            open player's enderchest to player
+            send "{@prefix} &aOpening your enderchest..." to player
+        else:
+            if player has permission "essentials.enderchest. others":
+                if arg-1 is online: 
+                    open arg-1's enderchest to player
+                    send "{@prefix} &aOpening &e%arg-1%'s&a enderchest..." to player
+                else:
+                    send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# CLEARINVENTORY COMMAND
+# ================================
+
+command /clearinventory [<offline player>]:
+    aliases: /eclearinventory, /ci, /eci, /clear, /eclear
+    description: Clear your or another player's inventory
+    permission:  essentials.clearinventory
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            clear player's inventory
+            send "{@prefix} &aInventory cleared!" to player
+        else:
+            if player has permission "essentials.clearinventory. others":
+                if arg-1 is online:
+                    clear arg-1's inventory
+                    send "{@prefix} &aCleared &e%arg-1%'s&a inventory!" to player
+                    send "{@prefix} &cYour inventory was cleared!" to arg-1
+
+# ================================
+# GIVE COMMAND (Using skbee NBT)
+# ================================
+
+command /give <player> <item type> [<number>]:
+    aliases: /egive
+    description: Give a player an item
+    permission: essentials.give
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is online: 
+            set {_amount} to 1
+            if arg-3 is set:
+                set {_amount} to arg-3
+            give {_amount} of arg-2 to arg-1
+            send "{@prefix} &aGave &e%{_amount}%&a of &e%arg-2%&a to &e%arg-1%&a!" to player
+            send "{@prefix} &aYou received &e%{_amount}%&a of &e%arg-2%&a!" to arg-1
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# TIME COMMAND
+# ================================
+
+command /time [<text>] [<text>]:
+    aliases: /etime
+    description: Change the world time
+    permission: essentials. time
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set:
+            send "{@prefix} &7Current time: &e%time in world of player%" to player
+        else if arg-1 is "set":
+            if arg-2 is "day":
+                set time to 6:00
+                send "{@prefix} &aTime set to day!" to player
+            else if arg-2 is "night":
+                set time to 18:00
+                send "{@prefix} &aTime set to night!" to player
+            else if arg-2 is "noon":
+                set time to 12:00
+                send "{@prefix} &aTime set to noon!" to player
+            else if arg-2 is "midnight":
+                set time to 0:00
+                send "{@prefix} &aTime set to midnight!" to player
+
+# ================================
+# WEATHER COMMAND
+# ================================
+
+command /weather <text> [<timespan>]:
+    aliases: /eweather, /sun, /rain, /storm
+    description: Set the weather
+    permission: essentials.weather
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is "clear" or "sun":
+            set weather to clear
+            send "{@prefix} &aWeather set to clear!" to player
+        else if arg-1 is "rain" or "storm":
+            set weather to rain
+            send "{@prefix} &aWeather set to rain!" to player
+        else if arg-1 is "thunder":
+            set weather to thunder
+            send "{@prefix} &aWeather set to thunder!" to player
+
+# ================================
+# WHOIS COMMAND
+# ================================
+
+command /whois <offline player>:
+    aliases: /ewhois, /who, /ewho
+    description: View player information
+    permission: essentials.whois
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is online:
+            send "&6==== &bPlayer Info:  &e%arg-1%&6 ====" to player
+            send "&eUUID: &7%uuid of arg-1%" to player
+            send "&eGamemode: &7%gamemode of arg-1%" to player
+            send "&eHealth: &7%health of arg-1%/20" to player
+            send "&eFood: &7%food level of arg-1%/20" to player
+            send "&eLevel: &7%level of arg-1%" to player
+            send "&eFlying: &7%arg-1's flight mode%" to player
+            send "&eWorld: &7%world of arg-1%" to player
+            if {godmode.%arg-1%} is true:
+                send "&eGod Mode: &aEnabled" to player
+            else: 
+                send "&eGod Mode: &cDisabled" to player
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# ESSENTIALS RELOAD/INFO
+# ================================
+
+command /essentials [<text>]:
+    aliases: /eessentials, /ess, /eess
+    description: EssentialsX management
+    permission: essentials.essentials
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &aEssentialsX Skript Version: &e%{essentials.version}%" to player
+            send "{@prefix} &7Created for Minecraft with skbee/skcrew" to player
+        if arg-1 is "version" or "ver":
+            send "{@prefix} &aEssentialsX Skript Version: &e%{essentials.version}%" to player
+            send "{@prefix} &7Created for Minecraft with skbee/skcrew" to player
+        if arg-1 is "reload":
+            send "{@prefix} &eReloading Skript files..." to player
+            make console execute command "/sk reload essentialsx-skript. sk"
+            send "{@prefix} &aReload complete!" to player
+
+# ================================
+# NICKNAME COMMAND
+# ================================
+
+command /nick [<text>]:
+    aliases:  /enick, /nickname
+    description: Change your nickname
+    permission: essentials.nick
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            reset player's display name
+            send "{@prefix} &aNickname reset!" to player
+        else if arg-1 is "off":
+            reset player's display name
+            send "{@prefix} &aNickname reset!" to player
+        else: 
+            set player's display name to arg-1
+            send "{@prefix} &aNickname set to &r%arg-1%&a!" to player
+
+# ================================
+# VANISH COMMAND
+# ================================
+
+command /vanish [<offline player>]:
+    aliases: /evanish, /v
+    description: Toggle visibility
+    permission: essentials.vanish
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set:
+            if {vanish.%player%} is true:
+                set {vanish.%player%} to false
+                reveal player to all players
+                send "{@prefix} &cVanish disabled." to player
+            else:
+                set {vanish.%player%} to true
+                hide player from all players
+                send "{@prefix} &aVanish enabled." to player
+
+# ================================
+# SERVER INFO COMMANDS
+# ================================
+
+command /gc: 
+    aliases: /lag, /mem, /memory, /tps, /uptime
+    description: View server performance info
+    permission: essentials.gc
+    permission message: &cYou don't have permission!
+    trigger:
+        send "&6==== &bServer Information &6====" to player
+        send "&eServer Version: &7%minecraft version%" to player
+        send "&ePlayers Online: &7%number of all players%" to player
+        send "&eWorlds Loaded: &7%number of all worlds%" to player
+        send "&eTPS: &a20. 0" to player # Simplified
+        send "&eUptime: &7Server running" to player
+
+# ================================
+# WORKBENCH/ANVIL/GRINDSTONE
+# ================================
+
+command /workbench: 
+    aliases: /eworkbench, /wb, /craft, /crafting
+    description:  Open a crafting table
+    permission: essentials.workbench
+    permission message: &cYou don't have permission!
+    trigger:
+        open crafting table to player
+        send "{@prefix} &aOpened workbench!" to player
+
+command /anvil:
+    aliases: /eanvil
+    description: Open an anvil
+    permission: essentials.anvil
+    permission message: &cYou don't have permission!
+    trigger:
+        open anvil inventory to player
+        send "{@prefix} &aOpened anvil!" to player
+
+command /grindstone:
+    aliases: /egrindstone
+    description: Open a grindstone
+    permission:  essentials.grindstone
+    permission message: &cYou don't have permission!
+    trigger: 
+        open grindstone inventory to player
+        send "{@prefix} &aOpened grindstone!" to player
+
+# ================================
+# MORE COMMANDS
+# ================================
+
+command /more:
+    aliases: /emore
+    description: Fill item stack to maximum
+    permission: essentials.more
+    permission message: &cYou don't have permission!
+    trigger:
+        if player's tool is not air:
+            set amount of player's tool to max stack size of player's tool
+            send "{@prefix} &aItem stack maxed!" to player
+        else: 
+            send "{@prefix} &cYou must be holding an item!" to player
+
+# ================================
+# HAT COMMAND
+# ================================
+
+command /hat: 
+    aliases: /ehat
+    description:  Wear the item in your hand as a hat
+    permission: essentials.hat
+    permission message: &cYou don't have permission! 
+    trigger:
+        if player's tool is not air:
+            set {_item} to player's tool
+            set helmet of player to {_item}
+            remove 1 of player's tool from player
+            send "{@prefix} &aEnjoy your new hat!" to player
+        else: 
+            send "{@prefix} &cYou must be holding an item!" to player
+
+# ================================
+# SKULL COMMAND (Using skbee)
+# ================================
+
+command /skull [<offline player>]:
+    aliases: /eskull, /head, /ehead
+    description: Get a player skull
+    permission: essentials.skull
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            give player's skull to player
+            send "{@prefix} &aHere's your skull!" to player
+        else: 
+            give arg-1's skull to player
+            send "{@prefix} &aHere's &e%arg-1%'s&a skull!" to player
+
+# ================================
+# AFKKICK ON IDLE
+# ================================
+
+on player move:
+    set {afk.lastmove. %player%} to now
+
+every 1 minute:
+    loop all players:
+        if difference between {afk.lastmove.%loop-player%} and now is more than 5 minutes:
+            if loop-player has permission "essentials.afk.kickexempt":
+                stop
+            else:
+                kick loop-player due to "AFK for too long"
+
+# ================================
+# LIST COMMAND
+# ================================
+
+command /list:
+    aliases: /elist, /who, /online, /playerlist
+    description: List online players
+    permission: essentials.list
+    permission message: &cYou don't have permission!
+    trigger:
+        send "&6==== &bOnline Players &7(&e%number of all players%&7/&e%max players%&7) &6====" to player
+        loop all players:
+            send "&e- %loop-player%" to player
+
+# ================================
+# SUDO COMMAND
+# ================================
+
+command /sudo <offline player> <text>:
+    aliases: /esudo
+    description: Make a player run a command
+    permission: essentials.sudo
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is online:
+            make arg-1 execute command "/%arg-2%"
+            send "{@prefix} &aForced &e%arg-1%&a to run:  &7/%arg-2%" to player
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# BURN COMMAND
+# ================================
+
+command /burn <player>:
+    aliases: /eburn
+    description: Set a player on fire
+    permission:  essentials.burn
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is a player: 
+            ignite arg-1
+            send "{@prefix} &aSet &e%arg-1%&a on fire!" to player
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# EXT COMMAND
+# ================================
+
+command /ext [<offline player>]:
+    aliases: /eext, /extinguish
+    description:  Extinguish yourself or another player
+    permission: essentials.ext
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is not set: 
+            extinguish player
+            send "{@prefix} &aYou were extinguished!" to player
+        else:
+            if arg-1 is online:
+                extinguish arg-1
+                send "{@prefix} &aExtinguished &e%arg-1%&a!" to player
+                send "{@prefix} &aYou were extinguished!" to arg-1
+
+# ================================
+# TELEPORT COMMANDS
+# ================================
+
+command /tp <offline player> [<offline player>]:
+    aliases: /etp, /teleport
+    description:  Teleport to a player
+    permission: essentials.tp
+    permission message: &cYou don't have permission!
+    trigger: 
+        if arg-2 is not set:
+            if arg-1 is online: 
+                teleport player to arg-1
+                send "{@prefix} &aTeleporting to &e%arg-1%&a..." to player
+            else:
+                send "{@prefix} &cPlayer is not online!" to player
+        else:
+            if player has permission "essentials.tp. others":
+                if arg-1 is online:
+                    if arg-2 is online:
+                        teleport arg-1 to arg-2
+                        send "{@prefix} &aTeleported &e%arg-1%&a to &e%arg-2%&a!" to player
+                    else: 
+                        send "{@prefix} &c%arg-2% is not online!" to player
+                else:
+                    send "{@prefix} &c%arg-1% is not online!" to player
+
+command /tpall [<offline player>]:
+    aliases: /etpall
+    description: Teleport all players to you or another player
+    permission: essentials.tpall
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set:
+            loop all players:
+                if loop-player is not player:
+                    teleport loop-player to player
+            send "{@prefix} &aTeleported all players to you!" to player
+        else:
+            if arg-1 is online:
+                loop all players:
+                    teleport loop-player to arg-1
+                send "{@prefix} &aTeleported all players to &e%arg-1%&a!" to player
+
+command /tphere <offline player>:
+    aliases:  /etphere, /s
+    description: Teleport a player to you
+    permission: essentials.tphere
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is online:
+            teleport arg-1 to player
+            send "{@prefix} &aTeleported &e%arg-1%&a to you!" to player
+            send "{@prefix} &aYou were teleported to &e%player%&a!" to arg-1
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+# ================================
+# WORLD TELEPORT
+# ================================
+
+command /world <text>:
+    aliases: /eworld
+    description: Teleport to a world
+    permission: essentials. world
+    permission message: &cYou don't have permission! 
+    trigger:
+        set {_world} to world arg-1
+        if {_world} is set:
+            teleport player to spawn of {_world}
+            send "{@prefix} &aTeleporting to world &e%arg-1%&a..." to player
+        else:
+            send "{@prefix} &cWorld &e%arg-1%&c doesn't exist!" to player
+
+# ================================
+# ECONOMIC COMMANDS (Basic)
+# ================================
+
+command /balance [<offline player>]:
+    aliases: /bal, /ebal, /ebalance, /money, /emoney
+    description: Check your balance
+    permission: essentials.balance
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is not set: 
+            if {balance.%player%} is not set:
+                set {balance.%player%} to 0
+            send "{@prefix} &aBalance: &e$%{balance.%player%}%" to player
+        else: 
+            if {balance.%arg-1%} is not set: 
+                set {balance.%arg-1%} to 0
+            send "{@prefix} &e%arg-1%'s&a balance: &e$%{balance.%arg-1%}%" to player
+
+command /pay <offline player> <number>:
+    aliases: /epay
+    description: Pay another player
+    permission: essentials. pay
+    permission message: &cYou don't have permission! 
+    trigger:
+        if arg-1 is online:
+            if {balance.%player%} >= arg-2:
+                remove arg-2 from {balance. %player%}
+                add arg-2 to {balance.%arg-1%}
+                send "{@prefix} &aYou paid &e$%arg-2%&a to &e%arg-1%&a!" to player
+                send "{@prefix} &aYou received &e$%arg-2%&a from &e%player%&a!" to arg-1
+            else:
+                send "{@prefix} &cYou don't have enough money!" to player
+        else:
+            send "{@prefix} &cPlayer is not online!" to player
+
+command /eco <text> <offline player> <number>:
+    aliases: /eeco, /economy
+    description: Manage economy
+    permission: essentials.eco
+    permission message: &cYou don't have permission!
+    trigger:
+        if arg-1 is "give":
+            add arg-3 to {balance.%arg-2%}
+            send "{@prefix} &aGave &e$%arg-3%&a to &e%arg-2%&a!" to player
+        else if arg-1 is "take":
+            remove arg-3 from {balance.%arg-2%}
+            send "{@prefix} &aTook &e$%arg-3%&a from &e%arg-2%&a!" to player
+        else if arg-1 is "set":
+            set {balance.%arg-2%} to arg-3
+            send "{@prefix} &aSet &e%arg-2%'s&a balance to &e$%arg-3%&a!" to player
+        else if arg-1 is "reset":
+            set {balance.%arg-2%} to 0
+            send "{@prefix} &aReset &e%arg-2%'s&a balance!" to player
