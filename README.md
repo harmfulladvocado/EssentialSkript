@@ -78,11 +78,6 @@ A comprehensive Minecraft server management Skript that recreates the functional
 
 ### **Dependencies**
 - **[skbee](https://github.com/ShaneBeee/SkBee)**:  For advanced NBT, inventory, and entity management
-- **[SkriptReflect](https://github.com/SkriptLang/skript-reflect)** or **[skcrew](https://github.com/crewpvp/skcrew)**: For extended functionality
-
-### **Optional (Recommended)**
-- **[SkQuery](https://github.com/SkQuery/SkQuery)**: Additional utilities
-- **[SkriptGUI](https://github.com/APickledWalrus/skript-gui)**: For GUI-based features (future expansion)
 
 ---
 
@@ -91,7 +86,6 @@ A comprehensive Minecraft server management Skript that recreates the functional
 ### **Step 1: Install Dependencies**
 1. Download and install [Skript](https://github.com/SkriptLang/Skript/releases)
 2. Download and install [skbee](https://github.com/ShaneBeee/SkBee/releases)
-3. Download and install [skcrew](https://github.com/crewpvp/skcrew/releases) or SkriptReflect
 4. Restart your server
 
 ### **Step 2: Install the Skript**
