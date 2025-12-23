@@ -1,6 +1,6 @@
 # 🎮 EssentialsX Skript Recreation
 # NOT AFFILIATED WITH ESSENTIALSX
-A comprehensive Minecraft server management Skript that recreates the functionality of the popular EssentialsX plugin using native Skript syntax with skbee and skcrew support.
+A comprehensive Minecraft server management Skript that recreates the functionality of the popular EssentialsX plugin using native Skript & skbee syntax
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Minecraft](https://img.shields.io/badge/minecraft-1.16+-green)
