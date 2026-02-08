@@ -1,4 +1,4 @@
-# 🎮 EssentialsX Skript Recreation
+# EssentialsX Skript Recreation
 # NOT AFFILIATED WITH ESSENTIALSX
 A comprehensive Minecraft server management Skript that recreates the functionality of the popular EssentialsX plugin using native Skript & skbee syntax
 
@@ -8,9 +8,9 @@ A comprehensive Minecraft server management Skript that recreates the functional
 
 ---
 
-## ✨ Features
+## Features
 
-### 🏠 **Teleportation System**
+### **Teleportation System**
 - Home management (set, teleport, delete, list)
 - Warp system with admin controls
 - Spawn point management
@@ -18,14 +18,14 @@ A comprehensive Minecraft server management Skript that recreates the functional
 - Back to last location/death point
 - World teleportation
 
-### 💬 **Communication**
+### **Communication**
 - Private messaging (msg/tell/whisper)
 - Reply to last message
 - Message toggling (DND mode)
 - Broadcast system
 - Nickname support
 
-### 👤 **Player Management**
+### **Player Management**
 - God mode (invincibility)
 - Fly mode toggle
 - Speed adjustment (walk/fly)
@@ -34,14 +34,14 @@ A comprehensive Minecraft server management Skript that recreates the functional
 - Inventory viewing (invsee)
 - Enderchest access
 
-### 🎮 **Gamemode & Utilities**
+### **Gamemode & Utilities**
 - Quick gamemode switches (gmc, gms, gma, gmsp)
 - Heal and feed commands
 - Repair items (hand or all)
 - Clear inventory
 - Workbench/Anvil/Grindstone access anywhere
 
-### ⚡ **Server Administration**
+### **Server Administration**
 - Kick/Kickall players
 - Sudo command execution
 - Give items to players
@@ -49,19 +49,19 @@ A comprehensive Minecraft server management Skript that recreates the functional
 - Server performance info (TPS, memory, uptime)
 - List online players
 
-### 💰 **Economy System**
+### **Economy System**
 - Balance checking
 - Player-to-player payments
 - Admin economy management (give/take/set/reset)
 
-### 🎨 **Fun Features**
+### **Fun Features**
 - Wear items as hats
 - Player skull collection
 - Burn/Extinguish players
 - Suicide command
 - More (max stack items)
 
-### 🔒 **Safety Features**
+### **Safety Features**
 - AFK kick system
 - God mode damage prevention
 - Permission-based command access
@@ -69,7 +69,7 @@ A comprehensive Minecraft server management Skript that recreates the functional
 
 ---
 
-## 📦 Requirements
+## Requirements
 
 ### **Essential**
 - **Minecraft Server**:  1.16+ (recommended 1.19+)
@@ -81,7 +81,7 @@ A comprehensive Minecraft server management Skript that recreates the functional
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### **Step 1: Install Dependencies**
 1. Download and install [Skript](https://github.com/SkriptLang/Skript/releases)
@@ -102,7 +102,7 @@ Add permissions to your permissions plugin (LuckPerms, PermissionsEx, etc.)
 
 ---
 
-## 📜 Commands
+## Commands
 
 ### **General Commands**
 
@@ -206,7 +206,7 @@ Add permissions to your permissions plugin (LuckPerms, PermissionsEx, etc.)
 
 ---
 
-## 🔐 Permissions
+## Permissions
 
 ### **Permission Structure**
 All permissions follow the format: `essentials.<command>[. modifier]`
@@ -258,7 +258,7 @@ permissions:
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### **Customizing Messages**
 
@@ -299,26 +299,26 @@ if {_speed} is between 0 and 20:  # Change max speed
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### **Common Issues**
 
-#### ❌ **"Unknown command" error**
+#### **"Unknown command" error**
 **Solution**: Ensure the script is loaded with `/sk reload essentialsx-skript`
 
-#### ❌ **"You don't have permission"**
+#### **"You don't have permission"**
 **Solution**: Grant the appropriate permission node (see [Permissions](#permissions))
 
-#### ❌ **Teleport commands not working**
+#### **Teleport commands not working**
 **Solution**: 
 1. Check if spawn/homes are set
 2. Verify player is online for TPA requests
 3. Ensure world exists for `/world` command
 
-#### ❌ **Economy not working**
+#### **Economy not working**
 **Solution**: Balance variables initialize on first use.  Run `/balance` once to create your account.
 
-#### ❌ **Variables not saving on restart**
+#### **Variables not saving on restart**
 **Solution**:  Ensure Skript's `variables. csv` has write permissions
 
 ### **Debug Mode**
@@ -332,15 +332,15 @@ Enable Skript debug mode to see detailed error messages:
 
 ---
 
-## 🔄 Updates & Roadmap
+## Updates & Roadmap
 
-### **Version 1.0.0** ✅
+### **Version 1.0.0**
 - Core teleportation system
 - Basic economy
 - Player management commands
 - Communication system
 
-### **Planned for 1.1.0** 🚧
+### **Planned for 1.1.0**
 - Kits system with cooldowns
 - Jail/Ban system with time support
 - Sign editing commands
@@ -350,7 +350,7 @@ Enable Skript debug mode to see detailed error messages:
 - MOTD system
 - Worth/Sell system
 
-### **Planned for 1.2.0** 📋
+### **Planned for 1.2.0**
 - GUI-based management
 - MySQL/SQLite database support
 - Multi-language support
@@ -359,7 +359,7 @@ Enable Skript debug mode to see detailed error messages:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Here's how you can help:
 
@@ -392,7 +392,7 @@ Contributions are welcome! Here's how you can help:
 
 ---
 
-## 🙏 Credits
+## Credits
 
 ### **Inspired By**
 - [EssentialsX](https://github.com/EssentialsX/Essentials) - The original Essentials plugin
@@ -407,19 +407,18 @@ Contributions are welcome! Here's how you can help:
 - copilot for the super good readme.md file :)
 ---
 
-## 🌟 Show Your Support
+## Show Your Support
 
 If this project helped you, please consider: 
-- ⭐ Starring this repository
-- 🐛 Reporting bugs
-- 💡 Suggesting new features
-- 🤝 Contributing code
+- Starring this repository
+- Reporting bugs
+- Suggesting new features
+- Contributing code
 
 ---
 
 <div align="center">
 
-[⬆ Back to Top](#-essentialsx-skript-recreation)
+[Back to Top](#essentialsx-skript-recreation)
 
 </div>
-i do use ai for my readme files u got a problem with it?
